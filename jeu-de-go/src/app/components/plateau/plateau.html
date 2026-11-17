@@ -1,1 +1,71 @@
-<p>plateau works!</p>
+
+<div class="jeu">
+
+  <h1>Jeu de Go</h1>
+
+  <!-- Informations des joueurs -->
+  <div class="informations">
+
+    <div class="joueur">
+      <span class="pierre-joueur noire"></span>
+      <p>Joueur noir</p>
+      <strong>{{ scoreNoir() }} points</strong>
+    </div>
+
+    <div class="joueur">
+      <span class="pierre-joueur blanche"></span>
+      <p>Joueur blanc</p>
+      <strong>{{ scoreBlanc() }} points</strong>
+    </div>
+
+  </div>
+
+  <!-- Joueur actuel -->
+  @if (!partieTerminee()) {
+
+    <h3>
+      Au tour du joueur
+      {{ joueurActuel() === 'noir' ? 'noir' : 'blanc' }}
+    </h3>
+
+  } @else {
+
+    <h2>Partie terminée !</h2>
+
+  }
+
+  <!-- Plateau de jeu -->
+  <div class="plateau">
+
+    @for (row of plateau(); track $index; let i = $index) {
+
+      @for (couleur of row; track $index; let j = $index) {
+
+        <app-cellule
+          [ligne]="i"
+          [colonne]="j"
+          [couleur]="couleur"
+          (jouer)="poserPierre($event)"
+          (retirer)="retirerPierre($event)"
+        />
+
+      }
+
+    }
+
+  </div>
+
+  <!-- Bouton passer -->
+  <div class="actions">
+
+    <button
+      type="button"
+      (click)="passerTour()"
+      [disabled]="partieTerminee()"
+    >
+      Passer son tour
+    </button>
+
+  </div>
+
+</div>

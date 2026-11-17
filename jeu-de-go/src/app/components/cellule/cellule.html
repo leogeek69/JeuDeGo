@@ -1,11 +1,22 @@
+
 <button
   type="button"
   class="intersection"
+
   [class.pierre-noire]="couleur() === 'noir'"
   [class.pierre-blanche]="couleur() === 'blanc'"
-  [disabled]="couleur() !== null"
+
   [attr.aria-label]="'Ligne ' + (ligne() + 1) + ', colonne ' + (colonne() + 1)"
-  (click)="jouer.emit({ ligne: ligne(), colonne: colonne() })"
+
+  (click)="couleur() === null && jouer.emit({
+    ligne: ligne(),
+    colonne: colonne()
+  })"
+
+  (contextmenu)="$event.preventDefault(); retirer.emit({
+    ligne: ligne(),
+    colonne: colonne()
+  })"
 >
   <span
     class="pierre"

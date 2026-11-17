@@ -1,0 +1,26 @@
+.jeu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+.joueur {
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+/* Grille du plateau */
+.plateau {
+  display: grid;
+  grid-template-columns: repeat(9, 55px);
+  grid-template-rows: repeat(9, 55px);
+  background-color: #d8aa62;
+  border: 2px solid #333;
+  width: fit-content;
+}
