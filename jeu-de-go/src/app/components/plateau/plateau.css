@@ -2,25 +2,219 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 30px;
+  padding: 24px 16px 40px;
   font-family: Arial, sans-serif;
+  color: #222;
 }
 
 h1 {
-  margin-bottom: 20px;
+  margin: 0 0 18px;
+  font-size: 28px;
+}
+
+/* Cartes joueurs */
+.informations {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .joueur {
-  margin-bottom: 20px;
-  font-size: 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 170px;
+  padding: 10px 16px;
+  background-color: #ffffff;
+  border: 2px solid #dcd4c6;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-/* Grille du plateau */
+.joueur.actif {
+  border-color: #b88435;
+  box-shadow: 0 4px 12px rgba(184, 132, 53, 0.25);
+  transform: translateY(-1px);
+}
+
+.pierre-joueur {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.pierre-joueur.noire {
+  background-color: #171717;
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.4);
+}
+
+.pierre-joueur.blanche {
+  background-color: #ffffff;
+  border: 1px solid #999;
+  box-sizing: border-box;
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.25);
+}
+
+.joueur-texte {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nom {
+  margin: 0;
+  font-size: 14px;
+  color: #555;
+}
+
+.score {
+  font-size: 16px;
+  color: #171717;
+}
+
+/* État de la partie */
+.etat-partie {
+  margin-bottom: 18px;
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tour-actif {
+  margin: 0;
+  font-size: 16px;
+}
+
+.fin-partie {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 14px;
+  border-radius: 6px;
+  background-color: #fff3cd;
+  border: 1px solid #e0b84c;
+  font-size: 15px;
+}
+
+/* Plateau bois : 480px de quadrillage (8 intervalles de 60px = 9x9 lignes) + 36px de marge bois */
 .plateau {
+  position: relative;
+  width: 552px;
+  height: 552px;
+  box-sizing: border-box;
+
   display: grid;
-  grid-template-columns: repeat(9, 55px);
-  grid-template-rows: repeat(9, 55px);
+  grid-template-columns: repeat(9, 60px);
+  grid-template-rows: repeat(9, 60px);
+  padding: 6px; /* 36px (1re ligne) - 30px (demi-cellule) = 6px */
+
   background-color: #d8aa62;
-  border: 2px solid #333;
-  width: fit-content;
+  border-radius: 6px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+}
+
+/* 9 lignes horizontales et 9 lignes verticales (de 0px à 480px, soit 8 intervalles de 60px) */
+.plateau::before {
+  content: '';
+  position: absolute;
+  top: 36px;
+  left: 36px;
+  width: 480px;
+  height: 480px;
+  box-sizing: border-box;
+  pointer-events: none;
+
+  /* 1re ligne (haut/gauche) et 9e ligne (bas/droite) */
+  border: 1px solid #333;
+
+  /* Lignes intérieures tous les 60px */
+  background-image:
+    repeating-linear-gradient(
+      to right,
+      transparent 0,
+      transparent 59.5px,
+      #333 59.5px,
+      #333 60.5px,
+      transparent 60.5px
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 59.5px,
+      #333 59.5px,
+      #333 60.5px,
+      transparent 60.5px
+    );
+  background-size: 60px 60px;
+  background-position: 0 0;
+}
+
+.plateau > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Boutons d'action */
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 22px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.btn {
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background-color 0.15s ease, opacity 0.15s ease;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primaire {
+  background-color: #26221e;
+  color: #f6f2ea;
+}
+
+.btn-primaire:hover:not(:disabled) {
+  background-color: #3d362f;
+}
+
+.btn-secondaire {
+  background-color: #d8aa62;
+  color: #171717;
+  border-color: #b88435;
+}
+
+.btn-secondaire:hover:not(:disabled) {
+  background-color: #cb994c;
+}
+
+.btn-neutre {
+  background-color: #ffffff;
+  color: #222;
+  border-color: #c7beae;
+}
+
+.btn-neutre:hover:not(:disabled) {
+  background-color: #eee8dc;
+}
+
+.aide {
+  margin-top: 14px;
+  font-size: 13px;
+  color: #666;
+  text-align: center;
 }

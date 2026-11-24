@@ -1,71 +1,79 @@
-
 <div class="jeu">
 
-  <h1>Jeu de Go</h1>
+  <h1>Jeu de Go — 9 × 9</h1>
 
-  <!-- Informations des joueurs -->
+  <!-- info des joueurs -->
   <div class="informations">
 
-    <div class="joueur">
+    <div class="joueur" [class.actif]="!partieTerminee() && joueurActuel() === 'noir'">
       <span class="pierre-joueur noire"></span>
-      <p>Joueur noir</p>
-      <strong>{{ scoreNoir() }} points</strong>
+      <div class="joueur-texte">
+        <p class="nom">Joueur noir</p>
+        <strong class="score">{{ scoreNoir() }} pt(s)</strong>
+      </div>
     </div>
 
-    <div class="joueur">
+    <div class="joueur" [class.actif]="!partieTerminee() && joueurActuel() === 'blanc'">
       <span class="pierre-joueur blanche"></span>
-      <p>Joueur blanc</p>
-      <strong>{{ scoreBlanc() }} points</strong>
+      <div class="joueur-texte">
+        <p class="nom">Joueur blanc</p>
+        <strong class="score">{{ scoreBlanc() }} pt(s)</strong>
+      </div>
     </div>
 
   </div>
 
-  <!-- Joueur actuel -->
-  @if (!partieTerminee()) {
-
-    <h3>
-      Au tour du joueur
-      {{ joueurActuel() === 'noir' ? 'noir' : 'blanc' }}
-    </h3>
-
-  } @else {
-
-    <h2>Partie terminée !</h2>
-
-  }
+  <!-- etat de la partie -->
+  <div class="etat-partie">
+    @if (!partieTerminee()) {
+    <p class="tour-actif">
+      Tour actuel :
+      <strong>{{ joueurActuel() === 'noir' ? 'Joueur noir' : 'Joueur blanc' }}</strong>
+    </p>
+    } @else {
+    <div class="fin-partie">
+      <strong>Partie terminée !</strong>
+      <span>
+        Résultat :
+        @if (scoreNoir() > scoreBlanc()) {
+        Joueur noir gagne
+        } @else if (scoreBlanc() > scoreNoir()) {
+        Joueur blanc gagne
+        } @else {
+        Égalité
+        }
+      </span>
+    </div>
+    }
+  </div>
 
   <!-- Plateau de jeu -->
   <div class="plateau">
-
     @for (row of plateau(); track $index; let i = $index) {
-
-      @for (couleur of row; track $index; let j = $index) {
-
-        <app-cellule
-          [ligne]="i"
-          [colonne]="j"
-          [couleur]="couleur"
-          (jouer)="poserPierre($event)"
-          (retirer)="retirerPierre($event)"
-        />
-
-      }
-
+    @for (couleur of row; track $index; let j = $index) {
+    <app-cellule [ligne]="i" [colonne]="j" [couleur]="couleur" (jouer)="poserPierre($event)"
+      (retirer)="retirerPierre($event)" />
     }
-
+    }
   </div>
 
-  <!-- Bouton passer -->
+  <!-- Boutons -->
   <div class="actions">
-
-    <button
-      type="button"
-      (click)="passerTour()"
-      [disabled]="partieTerminee()"
-    >
+    <button type="button" class="btn btn-secondaire" (click)="passerTour()" [disabled]="partieTerminee()">
       Passer son tour
     </button>
 
+    <button type="button" class="btn btn-primaire" (click)="sauvegarder()">
+      Sauvegarder
+    </button>
+
+    <button type="button" class="btn btn-neutre" (click)="nouvellePartie()">
+      Nouvelle partie
+    </button>
   </div>
+
+  <p class="aide">
+    Clic gauche : poser une pierre · Clic droit : retirer une pierre adverse (+1 pt)
+  </p>
 
 </div>

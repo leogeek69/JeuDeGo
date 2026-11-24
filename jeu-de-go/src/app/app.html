@@ -1,1 +1,12 @@
-<app-plateau />
+<nav class="navigation">
+  <a routerLink="/" routerLinkActive="actif" [routerLinkActiveOptions]="{ exact: true }">
+    Plateau de jeu
+  </a>
+  <a routerLink="/sauvegardes" routerLinkActive="actif">
+    Parties sauvegardées
+  </a>
+</nav>
+
+<main class="contenu">
+  <router-outlet />
+</main>

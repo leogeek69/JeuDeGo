@@ -17,10 +17,10 @@ export class Cellule {
   // Couleur de la pierre
   couleur = input<'noir' | 'blanc' | null>(null);
 
-  // Événement pour poser une pierre
+  // Evenment poser une pierre
   jouer = output<{ ligne: number; colonne: number }>();
 
-  // Événement pour retirer une pierre
+  // Evenement retirer une pierre
   retirer = output<{ ligne: number; colonne: number }>();
 
 }

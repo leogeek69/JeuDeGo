@@ -12,10 +12,10 @@ import { JeuService } from '../../services/jeu';
 })
 export class Plateau {
 
-  // Récupération du service
+  // Recup du service
   private jeuService = inject(JeuService);
 
-  // Informations du jeu
+  // info du jeu
   plateau = this.jeuService.plateau;
   joueurActuel = this.jeuService.joueurActuel;
 
@@ -50,5 +50,13 @@ export class Plateau {
     this.jeuService.passer();
 
   }
-
+//Sauvegardes de la aprtie
+  sauvegarder(): void {
+    this.jeuService.sauvegarderPartie();
+    alert('Partie sauvegardée !');
+  }
+//nouvelle parties
+  nouvellePartie(): void {
+    this.jeuService.nouvellePartie();
+  }
 }

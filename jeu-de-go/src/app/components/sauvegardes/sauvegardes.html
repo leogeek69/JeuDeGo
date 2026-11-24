@@ -1,0 +1,30 @@
+<section class="sauvegardes">
+  <h2>Parties enregistrées</h2>
+
+  @if (parties().length === 0) {
+    <p class="vide">Aucune partie sauvegardée pour le moment.</p>
+  } @else {
+    <ul class="liste-parties">
+      @for (partie of parties(); track partie.id) {
+        <li class="carte-partie">
+          <div class="infos">
+            <strong>{{ partie.nom }}</strong>
+            <span class="date">{{ partie.date }}</span>
+            <span class="details">
+              Tour : {{ partie.joueurActuel === 'noir' ? 'Noir' : 'Blanc' }} |
+              Noir : {{ partie.scoreNoir }} pt(s) — Blanc : {{ partie.scoreBlanc }} pt(s)
+              @if (partie.partieTerminee) {
+                | <em>Terminée</em>
+              }
+            </span>
+          </div>
+
+          <div class="boutons">
+            <button type="button" (click)="charger(partie.id)">Charger</button>
+            <button type="button" class="supprimer" (click)="supprimer(partie.id)">Supprimer</button>
+          </div>
+        </li>
+      }
+    </ul>
+  }
+</section>
